@@ -2,7 +2,7 @@
 #include <string.h>
 
 /**
-*This program calculates the production rate for a tissue machine
+*This program calculates the production rate for a tissue machine Copyright @ J88Moja PTY(LTD)
 *main - Entry point
 *scanf - takes in user input
 *printf - prints out message
