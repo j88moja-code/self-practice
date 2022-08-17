@@ -9,6 +9,9 @@
 #include <ctype.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 /* global var */
 int tLength = 0;
@@ -25,35 +28,29 @@ FILE *fp;
 
 /* struct */
 /**
-  * struct vars_data - global data structure.
-  * @production: current production rate
-  * @downtime: current downtime
-  * @prod_rate: running production rate
-  * @break_percent: running prod rate
-  * @yield: running yield.
-  * @hd_level: running hd level
-  * @isDelkoOn: delko running.
-  * @comment: comment regarding production figures
-  */
+ * struct vars_data - global data structure.
+ * @production: current production rate
+ * @downtime: current downtime
+ * @prod_rate: running production rate
+ * @break_percent: running prod rate
+ * @yield: running yield.
+ * @hd_level: running hd level
+ * @created_at: the time an entry was created.
+ * @comment: comment regarding production figures
+ */
 
-typedef struct vars_data
+struct vars_data
 {
-	float production;
-	float downtime;
-	float prod_rate;
-	float projected_tons;
-	int break_percent;
-	float yield;
-	int hd_level;
-	_Bool isDelkoOn;
-	char createdAt[50];
+  float production[50];
+  float downtime[50];
+  float prod_rate[50];
+  float projected_tons[50];
+  int break_percent[50];
+  float yield[50];
+  int hd_level[50];
+  char comment[250];
+  char created_at[50];
 } vars_t;
-
-/**
-  * struct builtins - manage the builtin functions.
-  * @name: name of builtin function
-  * @f: function for corresponding builtin
-  */
 
 /*-----PROTOTYPES-----*/
 
