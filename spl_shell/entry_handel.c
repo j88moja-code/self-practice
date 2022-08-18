@@ -9,76 +9,92 @@
 void add_entry(void)
 {
   /*production*/
-  float user_input[50];
+  double user_input;
+  char prod[50];
+  int j = 0;
 
   printf("Enter current production (t) \n>>> ");
-  scanf("%f\n", user_input);
-  strncpy(vars_t[tLength].production, user_input, 50);
-
+  scanf("%lf\n", &user_input);
+  snprintf(prod, 50, "%lf", user_input);
+  strcpy(vars_t[j].production, prod);
+  
   /*capture downtime*/
-  float user_input3[50];
+  char dt[50];
+  double user_input3;
 
   printf("Enter current dt (mins) \n>>> ");
-  scanf("%f\n", user_input3);
-  strncpy(vars_t[tLength].downtime, user_input3, 50);
+  scanf("%lf\n", &user_input3);
+  snprintf(dt, 50, "%lf", user_input3);
+  strcpy(vars_t[j].downtime, dt);
 
   /*production rate*/
-  float pope_speed, gsm, result;
-  float deckle;
+  char pdr[50];
+  double pope_speed, gsm, result;
+  double deckle;
 
   printf("Enter pope speed (m/min) \n>>>>>> ");
-  scanf("%f\n", pope_speed);
+  scanf("%lf\n", &pope_speed);
   printf("Enter grammage (gsm) \n>>>>>> ");
-  scanf("%f\n", gsm);
+  scanf("%lf\n", &gsm);
   printf("Enter deckle (m) \n>>>>>> ");
-  scanf("%f\n", deckle);
+  scanf("%lf\n", &deckle);
 
   result = ((pope_speed * gsm * deckle * 60) / (1000000));
-  strncpy(vars_t[tLength].prod_rate, result, 50);
+  snprintf(pdr, 50, "%lf", result);
+  strcpy(vars_t[j].prod_rate, pdr);
 
   /* projected tons */
-  float remain_time, result2;
+  char proj_t[50];
+  double remain_time, result2;
 
   printf("Enter remaining time till shift ends (hours) \n>>>>>>");
-  scanf("%f\n", remain_time);
+  scanf("%lf\n", &remain_time);
 
   result2 = (user_input + (result * remain_time));
-  strncpy(vars_t[tLength].projected_tons, result2, 50);
+  snprintf(proj_t, 50, "%lf", result2);
+  strcpy(vars_t[j].projected_tons, proj_t);
 
-  /*projected tons*/
+  /*break percentage*/
+  char brkp[50];
   int joints, reels;
-  int result3;
+  double result3;
 
   printf("Enter number of joints \n>>>>>>");
-  scanf("%d\n", joints);
+  scanf("%d\n", &joints);
 
   printf("Enter number of reels \n>>>>>> ");
-  scanf("%d\n", reels);
+  scanf("%d\n", &reels);
 
   result3 = ((joints / reels) * 100);
-  strncpy(vars_t[tLength].break_percent, result3, 50);
+  snprintf(brkp, 50, "%lf", result3); 
+  strcpy(vars_t[j].break_percent, brkp);
 
   /*yeild capture */
-  float ds_weight, result4;
+  char yiel[50];
+  double ds_weight, result4;
 
   printf("Enter current weight input at daystore (t) \n>>>>>>");
-  scanf("%f\n", ds_weight);
+  scanf("%lf\n", &ds_weight);
 
   result4 = ((user_input / ds_weight) * 100);
-  strncpy(vars_t[tLength].yield, result4, 50);
+  snprintf(yiel, 50, "%lf", result4);
+  strcpy(vars_t[j].yield, yiel);
 
   /*capture hd*/
-  float user_input4[50];
+  char hd[50];
+  double user_input4;
 
-  printf("Enter current hd level (%) \n>>> ");
-  scanf("%f\n", user_input4);
-  strncpy(vars_t[tLength].hd_level, user_input4, 50);
+  printf("Enter current hd level (perc.) \n>>> ");
+  scanf("%lf\n", &user_input4);
+  snprintf(hd, 50, "%lf", user_input4);
+  strcpy(vars_t[j].hd_level, hd);
+
   /*add comment*/
-  char comnt[250];
+  char comnt[100];
 
   printf("Comment(s) \n>>> ");
-  scanf("%[^\n]s"; comnt);
-  strncpy(vars_t[tLength].comment, comnt, 250);
+  scanf("%[^\n]s", comnt);
+  strncpy(vars_t[j].comment, comnt, 250);
 
   /* add time */
   char user_input2[50];
@@ -88,7 +104,7 @@ void add_entry(void)
   localtime_r(&timeS, &cTime);
   snprintf(user_input2, 50, "%i/%i %i:%i", cTime.tm_mday, cTime.tm_mon + 1,
            cTime.tm_hour, cTime.tm_min);
-  strcpy(vars_t[tLength].created_at, user_input2);
+  strcpy(vars_t[j].created_at, user_input2);
 }
 
 /**
@@ -100,17 +116,18 @@ void add_entry(void)
 void print_all_entries(void)
 {
   int i;
+  int j = 0;
 
   printf("+----+----------+--------+--------+--------+--------+-----+-----+------+-------------------------+\n");
-  printf("| ID |Created at| tons   |   mins | t/hr   | tons   |  b% | y%  | hd%  |        Comments         |\n");
+  printf("|ID | tons | mins | t/hr | tons/p| brkp | yld |  hdl |        Comments      |	Created at     	  |\n");
   printf("+----+----------+--------+--------+--------+--------+-----+-----+------+-------------------------+\n");
 
-  for (i = 0; i < tLength; i++)
+  for (i = 0; i < j; i++)
   {
-    printf("|%3d |%-13s|%3.f |%2.f |%3.f  |%3.f  |%3d |%3.f  |%3d  |  %-35s |\n",
-           vars_t[i].created_at, vars_t[i].production, vars_t[i].downtime,
-           vars_t[i].prod_rate, vars_t[i].projected_tons, vars_t[i].break_percent,
-           vars_t[i].yield, vars_t[i].hd_level, vars_t[i].comment);
+    printf("|%3d |%3s |%-4s |%-2s |%6s  |%8s  |%-5s |%3s  |%-35s  |  %-13s |\n", i + 1,	
+           vars_t[i].production, vars_t[i].downtime, vars_t[i].prod_rate,
+	   vars_t[i].projected_tons, vars_t[i].break_percent, vars_t[i].yield,
+           vars_t[i].hd_level, vars_t[i].comment, vars_t[i].created_at);
     printf("+----+----------+--------+--------+--------+--------+-----+-----+------+-------------------------+\n");
   }
 }
@@ -124,19 +141,20 @@ void print_all_entries(void)
 void delete_entry(void)
 {
   int entry_id;
+  int j = 0;
 
   printf("Enter the ID of the entry \n");
   scanf("%d", &entry_id);
 
-  if (entry_id < 0 || entry_id > tLength)
+  if (entry_id < 0 || entry_id > j)
   {
     printf("Invalid entry ID \n");
   }
   else
   {
     entry_id--;
-    memmove(vars_t + entry_id, vars_t + entry_id + 1, (tLength - entry_id - 1) * sizeof(*vars_t));
-    tLength--;
+    memmove(vars_t + entry_id, vars_t + entry_id + 1, (j - entry_id - 1) * sizeof(*vars_t));
+    j--;
     printf("Entry has been deleted \n");
   }
 }

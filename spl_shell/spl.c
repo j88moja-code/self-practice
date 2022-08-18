@@ -16,7 +16,7 @@ void first_time_use(void)
     }
     else
     {
-        printf("SPL PAPH");
+        printf("SPL PAPH\n");
         add_entry();
         save_to_file();
         print_all_entries();

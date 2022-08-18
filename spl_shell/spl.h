@@ -14,12 +14,10 @@
 #include <fcntl.h>
 
 /* global var */
-int tLength = 0;
 FILE *fp;
 
 /* macros */
 
-#define BUFSIZE 1024
 #define PRINT(c) (write(STDOUT_FILENO, c, _strlen(c)))
 #define PROMPT "j88-spl_shell "
 #define SUCCESS (1)
@@ -41,16 +39,16 @@ FILE *fp;
 
 struct vars_data
 {
-  float production[50];
-  float downtime[50];
-  float prod_rate[50];
-  float projected_tons[50];
-  int break_percent[50];
-  float yield[50];
-  int hd_level[50];
+  char production[50];
+  char downtime[50];
+  char prod_rate[50];
+  char projected_tons[50];
+  char break_percent[50];
+  char yield[50];
+  char hd_level[50];
   char comment[250];
   char created_at[50];
-} vars_t;
+} vars_t[1000];
 
 /*-----PROTOTYPES-----*/
 

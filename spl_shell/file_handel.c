@@ -10,20 +10,20 @@ void save_to_file(void)
 {
 
 	size_t i = 0;
+	int j = 0;
 
-	fp = open("spl_shell.bin", O_CREAT | O_WRONLY, 0600);
-	if (fp == -1)
+	fp = fopen("spl_shell.bin", "w");
+	if (!fp)
 	{
 		printf("Can't save entry\n");
 	}
 	else
 	{
-		for (i = 0; i < tLength; i++)
-			;
+		for (i = 0; i < j; i++)
 		{
-			write(fp, &vars_t[i], sizeof(struct vars_data), 1);
+			fwrite(&vars_t[i], sizeof(struct vars_data), 1, fp);
 		}
-		close(fp);
+		fclose(fp);
 	}
 }
 
@@ -35,10 +35,12 @@ void save_to_file(void)
 
 void get_file_size(void)
 {
+	int j = 0;
+
 	fseek(fp, 0L, SEEK_END);
 	unsigned int long size = ftell(fp);
 	fseek(fp, 0L, SEEK_SET);
-	tLength = size / sizeof(struct vars_data);
+	j = size / sizeof(struct vars_data);
 }
 
 /**
@@ -50,6 +52,7 @@ void get_file_size(void)
 void read_from_file(void)
 {
 	size_t i;
+	int j = 0;
 
 	fp = fopen("spl_shell.bin", "r");
 	if (!fp)
@@ -57,7 +60,7 @@ void read_from_file(void)
 	else
 	{
 		get_file_size();
-		for (i = 0; i < tLength; i++)
+		for (i = 0; i < j; i++)
 		{
 			fread(&vars_t[i], sizeof(struct vars_data), 1, fp);
 		}

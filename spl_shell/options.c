@@ -9,7 +9,7 @@
 void show_options(void)
 {
     char user_choice;
-    printf("Type 'A' to add, &'D' to delete or 'Q' to quit\n>>");
+   printf("Type 'A' to add, &'D' to delete or 'Q' to quit\n>>");
     user_choice = getchar();
     user_choice = toupper(user_choice);
     getchar();
